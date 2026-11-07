@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Transfert de {{ animal.nom or animal.numid }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+
+<header>
+  <h1>Transfert de {{ animal.nom or animal.numid }} ({{ animal.espece }})</h1>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 800px; margin: 30px auto; padding: 0 20px;">
+  <div class="card">
+    <div class="info-box">
+      <p><strong>Refuge actuel :</strong>
+        {{ refuge_actuel.nom }} – {{ refuge_actuel.ville }} ({{ refuge_actuel.idrefuge }})
+      </p>
+    </div>
+
+    <h2>Créer un nouveau transfert</h2>
+
+    <form method="post">
+      <p>
+        <label>Refuge d’arrivée :</label>
+        <select name="idRefugeArrivee" required>
+          <option value="">-- choisir --</option>
+          {% for r in refuges_dest %}
+            <option value="{{ r.idrefuge }}">
+              {{ r.nom }} – {{ r.ville }} ({{ r.idrefuge }})
+            </option>
+          {% endfor %}
+        </select>
+      </p>
+
+      <p>
+        <label>Date de départ :</label>
+        <input type="date" name="dateDepart" required>
+      </p>
+
+      <p>
+        <label>Date d’arrivée :</label>
+        <input type="date" name="dateArrivee" required>
+      </p>
+
+      <p style="margin-top:20px;">
+        <button type="submit">Valider le transfert</button>
+        &nbsp;
+        <a href="{{ url_for('historique_animal', numId=animal.numid) }}" style="color: #C76FA3">Annuler</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<footer>
+  © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

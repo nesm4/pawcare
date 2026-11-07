@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Animal {{ animal.nom or animal.numid }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>{{ animal.nom or 'Animal ' ~ animal.numid }}</h1>
+    <p>{{ animal.espece }} – {{ animal.sexe }}</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    {% if session.matricule %}
+        <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+        <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Espace Employés</a>
+    {% endif %}
+</nav>
+
+<main style="max-width: 800px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        <h3>Informations générales</h3>
+        <p><strong>Numéro d'identification :</strong> {{ animal.numid }}</p>
+        <p><strong>Espèce :</strong> {{ animal.espece }}</p>
+        <p><strong>Sexe :</strong> {{ animal.sexe }}</p>
+        <p><strong>Date de naissance :</strong> {{ animal.datenaissancea or 'inconnue' }}</p>
+        <p><strong>Adopté :</strong>
+            {% if animal.idadoptant %}
+                Oui
+            {% else %}
+                Non
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Signes distinctifs</h3>
+        {% if signes %}
+            <ul>
+                {% for s in signes %}
+                    <li>{{ s.description }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun signe distinctif enregistré.</p>
+        {% endif %}
+    </div>
+
+    {% if session.matricule %}
+    <div class="card">
+        <h3>Actions (employés)</h3>
+        <p>
+            <a class="btn" href="{{ url_for('historique_animal', numId=animal.numid) }}">
+                Historique (soins & transferts)
+            </a>
+        </p>
+        {% if not animal.idadoptant %}
+            <p>
+                <a class="btn" href="{{ url_for('adoption', numId=animal.numid) }}">
+                    Enregistrer une adoption
+                </a>
+            </p>
+        {% endif %}
+        <p>
+            <a class="btn" href="{{ url_for('ajout_soin', numId=animal.numid) }}">
+             Ajouter un soin
+            </a>
+        </p>
+        <p>
+            <a class="btn" href="{{ url_for('transfert', numId=animal.numid) }}">
+            Enregistrer un transfert
+            </a>
+        </p>
+    </div>
+    {% endif %}
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

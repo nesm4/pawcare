@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Refuge {{ refuge.nom }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>{{ refuge.nom }}</h1>
+    <p>{{ refuge.ville }} ({{ refuge.codepostal }})</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    {% if session.matricule %}
+        <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+        <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Espace Employés</a>
+    {% endif %}
+</nav>
+
+<main style="max-width: 900px; margin: 30px auto; padding: 0 20px;">
+
+    <div class="card">
+        <h3>Informations sur le refuge</h3>
+        <p><strong>Adresse :</strong> {{ refuge.adresse }}</p>
+        <p><strong>Téléphone :</strong> {{ refuge.numtelrefuge }}</p>
+        <p><strong>Capacité :</strong> {{ refuge.capacite }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Animaux actuellement dans ce refuge</h3>
+
+        {% if session.matricule %}
+            <p>
+                <a class="btn" href="{{ url_for('ajout_animal', idRefuge=refuge.idrefuge) }}">
+                    Ajouter un nouveau pensionnaire
+                </a>
+            </p>
+        {% endif %}
+
+        {% if animaux %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Espèce</th>
+                        <th>Sexe</th>
+                        <th>Date de naissance</th>
+                        <th>Fourrière d'origine</th>
+                        <th>Adoptant</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in animaux %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('animal_detail', numId=a.numid) }}" style = "color: #C76FA3">
+                                    {{ a.nom or '(sans nom)' }}
+                                </a>
+                            </td>
+                            <td>{{ a.espece }}</td>
+                            <td>{{ a.sexe }}</td>
+                            <td>{{ a.datenaissancea or 'inconnue' }}</td>
+                            <td>{{ a.nom_fourriere or '-' }}</td>
+                            <td>
+                                {% if a.nom_adoptant %}
+                                    {{ a.prenom_adoptant }} {{ a.nom_adoptant }}
+                                {% else %}
+                                    Non adopté
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun animal actuellement dans ce refuge.</p>
+        {% endif %}
+    </div>
+
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Animaux à vacciner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>Animaux à vacciner</h1>
+    <p>Rappels de vaccins en retard</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 900px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        {% if a_vacciner %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Animal</th>
+                        <th>Espèce</th>
+                        <th>Refuge</th>
+                        <th>Dernier vaccin</th>
+                        <th>Prochain rappel (prévu)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in a_vacciner %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('animal_detail', numId=a.numid) }}" style="color: #C76FA3">
+                                    {{ a.nom or a.numid }}
+                                </a>
+                            </td>
+                            <td>{{ a.espece }}</td>
+                            <td>{{ a.nom_refuge }}</td>
+                            <td>{{ a.dernier_vaccin }}</td>
+                            <td>{{ a.prochain_rappel }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Tous les animaux sont à jour dans leurs vaccins 🎉</p>
+        {% endif %}
+    </div>
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

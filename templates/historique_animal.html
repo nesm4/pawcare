@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Historique {{ animal.nom or animal.numid }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>Historique de {{ animal.nom or animal.numid }}</h1>
+    <p>{{ animal.espece }}</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 900px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        <h3>Soins reçus</h3>
+        {% if soins %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Soin</th>
+                        <th>Effectué par</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in soins %}
+                        <tr>
+                            <td>{{ s.datesoin }}</td>
+                            <td>{{ s.nomsoin }}</td>
+                            <td>{{ s.prenom_employe }} {{ s.nom_employe }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun soin enregistré.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Transferts</h3>
+        {% if transferts %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Refuge d'origine</th>
+                        <th>Refuge d'arrivée</th>
+                        <th>Date de départ</th>
+                        <th>Date d'arrivée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transferts %}
+                        <tr>
+                            <td>{{ t.idrefugeorigine }}</td>
+                            <td>{{ t.idrefugearrivee }}</td>
+                            <td>{{ t.datedepart }}</td>
+                            <td>{{ t.datearrivee }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Aucun transfert enregistré.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Actions</h3>
+        <p>
+            <a class="btn" href="{{ url_for('ajout_soin', numId=animal.numid) }}">
+                Ajouter un soin
+            </a>
+        </p>
+        <p>
+            <a class="btn" href="{{ url_for('transfert', numId=animal.numid) }}">
+                Enregistrer un transfert
+            </a>
+        </p>
+    </div>
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

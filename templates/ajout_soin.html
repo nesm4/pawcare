@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Ajouter un soin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>Ajouter un soin</h1>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 600px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        <form method="post">
+            <p>
+                <label>Type de soin :</label>
+                <select name="idsoin" required>
+                    {% for s in soins %}
+                        <option value="{{ s.idsoin }}">{{ s.nomsoin }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+            <p>
+                <button type="submit">Enregistrer le soin</button>
+            </p>
+        </form>
+    </div>
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

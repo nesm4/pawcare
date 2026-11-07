@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Connexion employés</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>Espace employés</h1>
+    <p>Connexion sécurisée</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    {% if session.matricule %}
+        <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+        <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Espace Employés</a>
+    {% endif %}
+</nav>
+
+<main style="max-width: 500px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        <h3>Connexion</h3>
+
+        {% if erreur %}
+            <div class="alert">{{ erreur }}</div>
+        {% endif %}
+
+        <form method="post">
+            <p>
+                <label>Login :</label>
+                <input type="text" name="login" required>
+            </p>
+            <p>
+                <label>Mot de passe :</label>
+                <input type="password" name="mdp" required>
+            </p>
+            <p>
+                <button type="submit">Se connecter</button>
+            </p>
+        </form>
+    </div>
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

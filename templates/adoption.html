@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Adoption de {{ animal.nom or animal.numid }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+  <h1>Adoption de {{ animal.nom or animal.numid }} ({{ animal.espece }})</h1>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 800px; margin: 30px auto; padding: 0 20px;">
+  <div class="card">
+    <h2>Choisir l'adoptant</h2>
+
+    <form method="post">
+      <fieldset style="border:none; padding:0; margin-bottom:20px;">
+        <legend style="font-weight:bold; color:#8A3F6A;">Adoptant existant</legend>
+        <p>
+          <label>
+            <input type="radio" name="type_adoptant" value="existant" checked>
+            Utiliser un adoptant existant
+          </label>
+        </p>
+        <p>
+          <label>Adoptant :</label>
+          <select name="idAdoptant">
+            {% for a in adoptants %}
+              <option value="{{ a.idadoptant }}">
+                {{ a.prenom }} {{ a.nom }}{% if a.ville %} ({{ a.ville }}){% endif %}
+              </option>
+            {% endfor %}
+          </select>
+        </p>
+      </fieldset>
+
+      <fieldset style="border:none; padding:0;">
+        <legend style="font-weight:bold; color:#8A3F6A;">Nouvel adoptant</legend>
+        <p>
+          <label>
+            <input type="radio" name="type_adoptant" value="nouveau">
+            Créer un nouvel adoptant
+          </label>
+        </p>
+        <p>
+          <label>Nom :</label>
+          <input type="text" name="nomAdoptant" placeholder="Nom de famille">
+        </p>
+        <p>
+          <label>Prénom :</label>
+          <input type="text" name="prenomAdoptant" placeholder="Prénom">
+        </p>
+        <p>
+          <label>Ville :</label>
+          <input type="text" name="villeAdoptant">
+        </p>
+        <p>
+          <label>Code postal :</label>
+          <input type="text" name="codePostal">
+        </p>
+        <p>
+          <label>Téléphone :</label>
+          <input type="text" name="numTelAdoptant">
+        </p>
+      </fieldset>
+
+      <p style="margin-top:20px;">
+        <button type="submit">Valider l'adoption</button>
+        &nbsp;
+        <a href="{{ url_for('animal_detail', numId=animal.numid) }}"style="color: #C76FA3">Annuler</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<footer>
+  © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

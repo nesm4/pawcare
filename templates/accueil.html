@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA - Accueil</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+    
+
+    <header>
+        <h1>Bienvenue à la SPA</h1>
+        <p>Refuges, adoptions, soins — un avenir pour chaque animal</p>
+    </header>
+
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    {% if session.matricule %}
+        <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+        <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Espace Employés</a>
+    {% endif %}
+</nav>
+
+    <section class="hero">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}" alt="Animaux SPA" />
+        <h2>Ensemble, protégeons ceux qui ne peuvent pas parler</h2>
+        <p>
+            Découvrez les refuges de la SPA partout en France, les animaux qui y sont accueillis
+            et les actions menées chaque jour pour leur offrir une nouvelle vie. Que vous soyez
+            particulier ou employé, ce site vous permet d'accéder aux informations essentielles
+            et de contribuer au bien-être animal.
+        </p>
+    </section>
+
+
+    <footer>
+        © 2025 - SPA France — Projet étudiant
+    </footer>
+</body>
+</html>

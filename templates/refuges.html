@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA - Refuges</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+    <header>
+        <h1>Refuges de la SPA</h1>
+        <p>Trouvez un refuge près de chez vous</p>
+    </header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    {% if session.matricule %}
+        <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+        <a href="{{ url_for('logout') }}">Déconnexion</a>
+    {% else %}
+        <a href="{{ url_for('login') }}">Espace Employés</a>
+    {% endif %}
+</nav>
+
+    <main style="max-width: 900px; margin: 30px auto; padding: 0 20px;">
+
+        <div class="card">
+            <h3 class="section-title" style="margin-top: 0;">Liste des refuges</h3>
+
+            <p>
+                Tri :
+                {% if tri == 'ville' %}
+                    <strong>par ville</strong> |
+                    <a href="{{ url_for('refuges', tri='codepostal') }}" style="color: #C76FA3">par code postal</a>
+                {% else %}
+                    <a href="{{ url_for('refuges', tri='ville') }}" style="color: #C76FA3">par ville</a> |
+                    <strong>par code postal</strong>
+                {% endif %}
+            </p>
+
+            {% if refuges %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Ville</th>
+                            <th>Code postal</th>
+                            <th>Détails</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in refuges %}
+                            <tr>
+                                <td>{{ r.nom }}</td>
+                                <td>{{ r.ville }}</td>
+                                <td>{{ r.codepostal }}</td>
+                                <td>
+                                    <a class="btn" href="{{ url_for('refuge_detail', idRefuge=r.idrefuge) }}" style="color: #F9DDEB">
+                                        <center>Voir le refuge</center>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucun refuge trouvé.</p>
+            {% endif %}
+        </div>
+
+    </main>
+
+    <footer>
+        © 2025 - SPA France — Projet étudiant
+    </footer>
+</body>
+</html>

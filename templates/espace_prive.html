@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>SPA - Espace privé</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+    <h1>Espace privé</h1>
+    <p>Bienvenue {{ session.prenom }} {{ session.nom }}</p>
+</header>
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 800px; margin: 30px auto; padding: 0 20px;">
+    <div class="card">
+        <h3>Refuges où vous travaillez</h3>
+
+        {% if refuges %}
+            <ul>
+                {% for r in refuges %}
+                    <li>
+                        <a href="{{ url_for('refuge_employes', idRefuge=r.idrefuge) }}" style="color: #C76FA3">
+                            {{ r.nom }} – {{ r.ville }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Vous n'êtes associé à aucun refuge.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3>Outils</h3>
+        <p>
+            <a class="btn" href="{{ url_for('vaccins') }}">
+                Animaux à vacciner
+            </a>
+        </p>
+    </div>
+</main>
+
+<footer>
+    © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>

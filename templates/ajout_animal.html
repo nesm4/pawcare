@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Ajouter un pensionnaire</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{{ url_for('accueil') }}">
+        <img src="{{ url_for('static', filename='logo_spa.png') }}"
+             alt="Logo SPA"
+             class="logo-spa">
+    </a>
+</div>
+
+
+<header>
+  <h1>SPA – Ajout d'un nouveau pensionnaire</h1>
+</header>
+
+
+    <nav>
+    <a href="{{ url_for('accueil') }}">Accueil</a>
+    <a href="{{ url_for('refuges') }}">Refuges</a>
+    <a href="{{ url_for('espace_prive') }}">Espace privé</a>
+    <a href="{{ url_for('vaccins') }}">Vaccins</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</nav>
+
+<main style="max-width: 800px; margin: 30px auto; padding: 0 20px;">
+  <div class="card">
+    <h2>Ajouter un animal dans le refuge {{ idRefuge }}</h2>
+
+    <form method="post">
+      <p>
+        <label>Nom de l'animal :</label>
+        <input type="text" name="nom" placeholder="Optionnel (ex : Luna)">
+      </p>
+
+      <p>
+        <label>Espèce :</label>
+        <input type="text" name="espece" required placeholder="ex : Chien, Chat...">
+      </p>
+
+      <p>
+        <label>Date de naissance :</label>
+        <input type="date" name="dateNaissanceA">
+      </p>
+
+      <p>
+        <label>Sexe :</label>
+        <select name="sexe" required>
+          <option value="">-- choisir --</option>
+          <option value="M">Mâle</option>
+          <option value="F">Femelle</option>
+        </select>
+      </p>
+
+      <p>
+        <label>Fourrière d'origine :</label>
+        <select name="idFourriere" required>
+          <option value="">-- choisir --</option>
+          {% for f in fourrieres %}
+            <option value="{{ f.idfourriere }}">{{ f.idfourriere }} – {{ f.nom }}</option>
+          {% endfor %}
+        </select>
+      </p>
+
+      <p>
+        <button type="submit">Enregistrer le pensionnaire</button>
+        &nbsp;
+        <a href="{{ url_for('refuge_detail', idRefuge=idRefuge) }}"style="color: #C76FA3">Annuler</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<footer>
+  © 2025 - SPA France — Projet étudiant
+</footer>
+</body>
+</html>
